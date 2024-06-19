@@ -7,8 +7,10 @@ class StaticObject(Entity):
 
 
 class Rock(StaticObject):
-    pass
+    def __init__(self, position: tuple[int, int]) -> None:
+        super().__init__(position)
 
 
 class Tree(StaticObject):
-    pass
+    def __init__(self, position: tuple[int, int]) -> None:
+        super().__init__(position)
