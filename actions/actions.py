@@ -1,10 +1,12 @@
 import random
 from abc import ABC, abstractmethod
 
+from entities.entity import Entity
 from entities.grass import Grass
 from entities.herbivore import Herbivore
 from entities.predator import Predator
 from entities.static_objects import Rock, Tree
+from entities.creatures import Creature
 from map import Map
 
 
@@ -16,26 +18,40 @@ class Action(ABC):
 
 class InitAction(Action):
     def execute(self, game_map: Map) -> None:
-        for x in range(game_map.width):
-            for y in range(game_map.height):
-                if random.random() < 0.2: 
-                    rand_value = random.random()
-                    if rand_value < 0.4:  
-                        game_map.add_entity(Grass((x, y)))
-                    elif rand_value < 0.7:  
-                        game_map.add_entity(Rock((x, y)))
-                    else:  
-                        game_map.add_entity(Tree((x, y)))
+        for _ in range(1):  
+            x, y = random.randint(0, game_map.width - 1), random.randint(0, game_map.height - 1)
+            game_map.add_entity(Grass((x, y)))
+        for _ in range(0): 
+            x, y = random.randint(0, game_map.width - 1), random.randint(0, game_map.height - 1)
+            game_map.add_entity(Rock((x, y)))
+        for _ in range(0):  
+            x, y = random.randint(0, game_map.width - 1), random.randint(0, game_map.height - 1)
+            game_map.add_entity(Tree((x, y)))
+        
+        # TODO: Creature can't spawn in filled cell
         initial_herbivore_position = (random.randint(0, game_map.width - 1), random.randint(0, game_map.height - 1))
         game_map.add_entity(Herbivore(initial_herbivore_position, speed=1, hp=10))
         initial_predator_position = (random.randint(0, game_map.width - 1), random.randint(0, game_map.height - 1))
         game_map.add_entity(Predator(initial_predator_position, speed=2, hp=15, attack_power=5))
+        print(game_map.entities)
 
 
 class TurnAction(Action):
     def execute(self, game_map: Map) -> None:
-        herbivores = game_map.get_entities_of_type(Herbivore)
-        x, y = 0, 0
-        for herbivore in herbivores:
-            game_map.move_entity(herbivore, (x , y))
+        herbivores: list[Herbivore] = game_map.get_creatures_by_type(Herbivore)
+        predators: list[Predator] = game_map.get_creatures_by_type(Predator)
+
+        creatures = []
+
+        max_len = max(len(herbivores), len(predators))
+        for i in range(max_len):
+            if i < len(herbivores):
+                creatures.append(herbivores[i])
+            if i < len(predators):
+                creatures.append(predators[i])
+
+        for creature in creatures:
+            creature.make_move(game_map)
+                
+                
 
