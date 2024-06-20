@@ -1,3 +1,4 @@
+
 from entities.entity import Entity
 
 
@@ -6,7 +7,7 @@ class Map:
         self.width: int = width
         self.height: int = height
         self.entities: dict[tuple[int, int], Entity] = {}
-    
+
     def add_entity(self, entity: Entity) -> None:
         x, y = entity.position
         self.entities[(x, y)] = entity
@@ -23,8 +24,7 @@ class Map:
     def remove_entity(self, entity: Entity) -> None:
         if entity.position in self.entities:
             del self.entities[entity.position]
-            
-    def get_entities_of_type(self, entity_type: type) -> list[Entity]:
-        return [entity for entity in self.entities.values() if isinstance(entity, entity_type)]
-        
-    
+
+    # TODO: Fix type hints
+    def get_creatures_by_type(self, type) -> list:
+        return [creature for creature in self.entities.values() if isinstance(creature, type)]
