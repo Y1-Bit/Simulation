@@ -1,12 +1,13 @@
-import os 
+import os
 
 from entities import Grass, Herbivore, Predator, Rock, Tree
 from map import Map
 
 
+
 class ConsoleRenderer:
     def clear_console(self) -> None:
-        os.system('cls' if os.name == 'nt' else 'clear')
+        os.system("cls" if os.name == "nt" else "clear")
 
     def render(self, game_map: Map) -> None:
         self.clear_console()
@@ -14,15 +15,18 @@ class ConsoleRenderer:
             for x in range(game_map.width):
                 entity = game_map.get_entity((x, y))
                 if entity is None:
-                    print(' ', end=' ')
+                    print("   ", end="")  
                 elif isinstance(entity, Herbivore):
-                    print('🐼', end=' ')
+                    print("🐼 ", end="")  
                 elif isinstance(entity, Predator):
-                    print('🐯', end=' ')
+                    print("🐯 ", end="")
                 elif isinstance(entity, Grass):
-                    print('🥦', end=' ')
+                    print("🥦 ", end="")
                 elif isinstance(entity, Rock):
-                    print('🪨', end=' ')
+                    print("🪨 ", end="")
                 elif isinstance(entity, Tree):
-                    print('🌲', end=' ')
+                    print("🌲 ", end="")
             print()
+
+
+
