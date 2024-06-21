@@ -1,4 +1,4 @@
-from typing import Optional, Tuple
+from typing import Optional, Tuple, Type
 from abc import ABC, abstractmethod
 from collections import deque
 
@@ -16,28 +16,33 @@ class Creature(Entity, ABC):
     @abstractmethod
     def make_move(self, game_map: Map) -> None:
         pass
+    
+    def is_next_to(self, target_position: tuple[int, int]) -> bool:
+        dx: int = abs(self.position[0] - target_position[0])
+        dy: int = abs(self.position[1] - target_position[1])
+        return (dx == 1 and dy == 0) or (dx == 0 and dy == 1)
 
-    def find_closest(self, game_map: Map, target_type: type) -> Optional[Tuple[int, int]]:
-        queue = deque([self.position])  
-        visited = set()
-        visited.add(self.position)
+    def find_closest(self, game_map, target_type, static_types):
+        static_positions = game_map.get_static_entities_positions(static_types)
+        queue = deque([self.position])
+        visited = set([self.position]) | static_positions  
 
         while queue:
             current_position = queue.popleft()
-            x, y = current_position
 
             entity = game_map.get_entity(current_position)
             if isinstance(entity, target_type):
                 return current_position
 
+            x, y = current_position
             neighbors = [(x-1, y), (x+1, y), (x, y-1), (x, y+1)]
             for neighbor in neighbors:
-                if (0 <= neighbor[0] < game_map.width and 0 <= neighbor[1] < game_map.height
-                        and neighbor not in visited and (game_map.get_entity(neighbor) is None or isinstance(game_map.get_entity(neighbor), target_type))):
-                    visited.add(neighbor)
+                if (0 <= neighbor[0] < game_map.width and 0 <= neighbor[1] < game_map.height and
+                        neighbor not in visited):
                     queue.append(neighbor)
+                    visited.add(neighbor)
 
-        return None  
+        return None
     
     def move_towards(self, game_map: Map, target_position: tuple[int, int]) -> None:
         if not target_position:
