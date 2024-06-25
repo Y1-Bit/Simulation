@@ -22,45 +22,36 @@ class Creature(Entity, ABC):
         dy: int = abs(self.position[1] - target_position[1])
         return (dx == 1 and dy == 0) or (dx == 0 and dy == 1)
 
-    def find_closest(self, game_map, target_type, static_types):
-        static_positions = game_map.get_static_entities_positions(static_types)
-        queue = deque([self.position])
-        visited = set([self.position]) | static_positions  
+    def find_closest(self, game_map: Map, target_type, ignore_types) -> list[tuple[int, int]] | None:
+        ignore_positions = game_map.get_ignored_entities_positions(ignore_types)
+        queue = deque([([self.position], self.position)])  
+        visited = set([self.position]) | ignore_positions
 
         while queue:
-            current_position = queue.popleft()
+            path, current_position = queue.popleft()
 
             entity = game_map.get_entity(current_position)
             if isinstance(entity, target_type):
-                return current_position
+                return path  
 
             x, y = current_position
             neighbors = [(x-1, y), (x+1, y), (x, y-1), (x, y+1)]
             for neighbor in neighbors:
                 if (0 <= neighbor[0] < game_map.width and 0 <= neighbor[1] < game_map.height and
                         neighbor not in visited):
-                    queue.append(neighbor)
+                    new_path = path + [neighbor]  
+                    queue.append((new_path, neighbor))
                     visited.add(neighbor)
 
         return None
     
-    def move_towards(self, game_map: Map, target_position: tuple[int, int]) -> None:
-        if not target_position:
+    def move_towards(self, game_map: Map, path: list[tuple[int, int]]) -> None:
+        if not path or len(path) < 2:
             return
 
-        x, y = self.position
-        target_x, target_y = target_position
+        next_position = path[1]
 
-        if x < target_x:
-            new_position = (x + 1, y)
-        elif x > target_x:
-            new_position = (x - 1, y)
-        elif y < target_y:
-            new_position = (x, y + 1)
-        else:  # y > target_y
-            new_position = (x, y - 1)
-
-        if 0 <= new_position[0] < game_map.width and 0 <= new_position[1] < game_map.height and game_map.get_entity(new_position) is None:
-            game_map.move_entity(self, new_position)
-                
-                
+        if 0 <= next_position[0] < game_map.width and 0 <= next_position[1] < game_map.height and game_map.get_entity(next_position) is None:
+            game_map.move_entity(self, next_position)
+                    
+                    

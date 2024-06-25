@@ -11,10 +11,11 @@ class Predator(Creature):
         self.attack_power: int = attack_power
 
     def make_move(self, game_map: Map) -> None:
-        herbivore_position = self.find_closest(game_map, Herbivore, (Rock, Tree, Grass))
-        if herbivore_position:
-            self.move_towards(game_map, herbivore_position)
-            if self.is_next_to(herbivore_position):
+        path_to_herbivore = self.find_closest(game_map, Herbivore, (Rock, Tree, Grass))
+        if path_to_herbivore:
+            self.move_towards(game_map, path_to_herbivore)
+            if self.is_next_to(path_to_herbivore[-1]):
+                herbivore_position = path_to_herbivore[-1]
                 herbivore = game_map.get_entity(herbivore_position)
                 if isinstance(herbivore, Herbivore):
                     self.attack(herbivore, game_map)
