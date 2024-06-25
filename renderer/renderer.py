@@ -9,8 +9,9 @@ class ConsoleRenderer:
     def clear_console(self) -> None:
         os.system("cls" if os.name == "nt" else "clear")
 
-    def render(self, game_map: Map) -> None:
+    def render(self, game_map: Map, health_stats: dict) -> None:
         self.clear_console()
+
         for y in range(game_map.height):
             for x in range(game_map.width):
                 entity = game_map.get_entity((x, y))
@@ -27,6 +28,10 @@ class ConsoleRenderer:
                 elif isinstance(entity, Tree):
                     print("🌲 ", end="")
             print()
+
+        print("\nHealth Bar:")
+        for entity_type, total_health in health_stats.items():
+            print(f"{entity_type}: {total_health} HP")
 
 
 
