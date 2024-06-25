@@ -25,6 +25,12 @@ class Map:
         if entity.position in self.entities:
             del self.entities[entity.position]
 
-    # TODO: Fix type hints
-    def get_creatures_by_type(self, type) -> list:
+    def get_creatures_by_type(self, type: type) -> list:
         return [creature for creature in self.entities.values() if isinstance(creature, type)]
+
+    def get_ignored_entities_positions(self, ignore_types: tuple[type, ...]) -> set[tuple[int, int]]:
+        return {position for position, entity in self.entities.items() if isinstance(entity, ignore_types)}
+    
+    def get_all_creatures(self) -> list:
+        from entities import Creature
+        return [entity for entity in self.entities.values() if isinstance(entity, Creature)]
