@@ -1,14 +1,14 @@
+from .creatures import Creature
+from .static_objects import Grass, Rock, Tree
 from map import Map
 
-from .creatures import Creature
-from .static_objects import Rock, Tree, Grass
 
 class Herbivore(Creature):
     def __init__(self, position: tuple[int, int], speed: int, hp: int) -> None:
         super().__init__(position, speed, hp)
 
     def make_move(self, game_map: Map) -> None:
-        from entities.predator import Predator
+        from .predator import Predator
         path_to_grass = self.find_closest(game_map, Grass, (Rock, Tree, Predator))
         if path_to_grass:
             self.move_towards(game_map, path_to_grass)

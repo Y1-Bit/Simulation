@@ -1,4 +1,3 @@
-
 from entities.entity import Entity
 
 
@@ -32,5 +31,5 @@ class Map:
         return {position for position, entity in self.entities.items() if isinstance(entity, ignore_types)}
     
     def get_all_creatures(self) -> list:
-        from entities import Creature
+        from entities.creatures import Creature
         return [entity for entity in self.entities.values() if isinstance(entity, Creature)]

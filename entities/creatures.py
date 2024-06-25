@@ -1,10 +1,8 @@
-from typing import Optional, Tuple, Type
 from abc import ABC, abstractmethod
 from collections import deque
 
-from map import Map
-
 from .entity import Entity
+from map import Map
 
 
 class Creature(Entity, ABC):
