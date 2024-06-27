@@ -1,12 +1,9 @@
 import random
 from abc import ABC, abstractmethod
 
-from entities.entity import Entity
-from entities.grass import Grass
 from entities.herbivore import Herbivore
 from entities.predator import Predator
-from entities.static_objects import Rock, Tree
-from entities.creatures import Creature
+from entities.static_objects import Grass, Rock, Tree
 from map import Map
 
 
@@ -18,22 +15,21 @@ class Action(ABC):
 
 class InitAction(Action):
     def execute(self, game_map: Map) -> None:
-        for _ in range(1):  
+        for _ in range(4):  
             x, y = random.randint(0, game_map.width - 1), random.randint(0, game_map.height - 1)
             game_map.add_entity(Grass((x, y)))
-        for _ in range(0): 
+        for _ in range(5): 
             x, y = random.randint(0, game_map.width - 1), random.randint(0, game_map.height - 1)
             game_map.add_entity(Rock((x, y)))
-        for _ in range(0):  
+        for _ in range(5):  
             x, y = random.randint(0, game_map.width - 1), random.randint(0, game_map.height - 1)
             game_map.add_entity(Tree((x, y)))
         
         # TODO: Creature can't spawn in filled cell
         initial_herbivore_position = (random.randint(0, game_map.width - 1), random.randint(0, game_map.height - 1))
-        game_map.add_entity(Herbivore(initial_herbivore_position, speed=1, hp=10))
+        game_map.add_entity(Herbivore(initial_herbivore_position, speed=1, hp=30))
         initial_predator_position = (random.randint(0, game_map.width - 1), random.randint(0, game_map.height - 1))
         game_map.add_entity(Predator(initial_predator_position, speed=2, hp=15, attack_power=5))
-        print(game_map.entities)
 
 
 class TurnAction(Action):
