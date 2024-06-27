@@ -11,7 +11,7 @@ class Herbivore(Creature):
         from .predator import Predator
         path_to_grass = self.find_closest(game_map, Grass, (Rock, Tree, Predator))
         if path_to_grass:
-            self.move_towards(game_map, path_to_grass)
+            self.move_towards(game_map, path_to_grass, self.speed)
             if self.is_next_to(path_to_grass[-1]):
                 grass_position = path_to_grass[-1]
                 grass = game_map.get_entity(grass_position)

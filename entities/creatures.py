@@ -43,11 +43,12 @@ class Creature(Entity, ABC):
 
         return None
     
-    def move_towards(self, game_map: Map, path: list[tuple[int, int]]) -> None:
+    def move_towards(self, game_map: Map, path: list[tuple[int, int]], creature_speed: int) -> None:
         if not path or len(path) < 2:
             return
 
-        next_position = path[1]
+        next_position_index = min(creature_speed, len(path) - 1)
+        next_position = path[next_position_index]
 
         if 0 <= next_position[0] < game_map.width and 0 <= next_position[1] < game_map.height and game_map.get_entity(next_position) is None:
             game_map.move_entity(self, next_position)
