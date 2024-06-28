@@ -20,8 +20,13 @@ class Creature(Entity, ABC):
         dy: int = abs(self.position[1] - target_position[1])
         return (dx == 1 and dy == 0) or (dx == 0 and dy == 1)
 
-    def find_closest(self, game_map: Map, target_type, ignore_types) -> list[tuple[int, int]] | None:
-        ignore_positions = game_map.get_ignored_entities_positions(ignore_types)
+    def find_closest(self, game_map: Map, target_type: type) -> list[tuple[int, int]] | None:
+        entities = game_map.get_entities()
+        for entity in entities.values():
+            if isinstance(entity, target_type):
+                entities.pop(entity.position)
+
+        ignore_positions = entities.keys() 
         queue = deque([([self.position], self.position)])  
         visited = set([self.position]) | ignore_positions
 

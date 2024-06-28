@@ -34,18 +34,7 @@ class InitAction(Action):
 
 class TurnAction(Action):
     def execute(self, game_map: Map) -> None:
-        herbivores: list[Herbivore] = game_map.get_creatures_by_type(Herbivore)
-        predators: list[Predator] = game_map.get_creatures_by_type(Predator)
-
-        creatures = []
-
-        max_len = max(len(herbivores), len(predators))
-        for i in range(max_len):
-            if i < len(herbivores):
-                creatures.append(herbivores[i])
-            if i < len(predators):
-                creatures.append(predators[i])
-
+        creatures = game_map.get_creatures()
         for creature in creatures:
             creature.make_move(game_map)
                 
