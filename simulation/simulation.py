@@ -1,6 +1,6 @@
 import time
 
-from actions import Action, InitAction, TurnAction
+from actions import Action, InitAction, TurnAction, GenerateGrassAction
 from map import Map
 from renderer import ConsoleRenderer
 from entities.creatures import Creature
@@ -12,7 +12,7 @@ class Simulation:
         self.move_counter = 0
         self.renderer = ConsoleRenderer()
         self.init_actions: list[Action] = [InitAction()]
-        self.turn_actions: list[Action] = [TurnAction()]
+        self.turn_actions: list[Action] = [TurnAction(), GenerateGrassAction()]
         self.health_stats: dict[str, int] = {}
         self.creatures: list[Creature] = []
         self.is_paused = False

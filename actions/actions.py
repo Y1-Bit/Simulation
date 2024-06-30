@@ -11,17 +11,7 @@ class Action(ABC):
     @abstractmethod
     def execute(self, game_map: Map) -> None:
         pass
-
-
-class InitAction(Action):
-    def execute(self, game_map: Map) -> None:
-        self.spawn_static_entities(game_map, Grass, 4)
-        self.spawn_static_entities(game_map, Rock, 5)
-        self.spawn_static_entities(game_map, Tree, 5)
-        self.spawn_creature(game_map, Herbivore, 1, 30)
-        self.spawn_creature(game_map, Herbivore, 1, 30)
-        self.spawn_creature(game_map, Predator, 2, 15, 5)
-
+    
     def spawn_static_entities(self, game_map: Map, entity_type: type, count: int) -> None:
         for _ in range(count):
             while True:
@@ -41,12 +31,31 @@ class InitAction(Action):
                 break
 
 
+class InitAction(Action):
+    def execute(self, game_map: Map) -> None:
+        self.spawn_static_entities(game_map, Grass, 4)
+        self.spawn_static_entities(game_map, Rock, 5)
+        self.spawn_static_entities(game_map, Tree, 5)
+        self.spawn_creature(game_map, Herbivore, 1, 30)
+        self.spawn_creature(game_map, Herbivore, 1, 30)
+        self.spawn_creature(game_map, Predator, 2, 15, 5)
+
+
 class TurnAction(Action):
     def execute(self, game_map: Map) -> None:
         entities = game_map.get_entities()
         for entity in list(entities.values()):  
             if isinstance(entity, Herbivore) or isinstance(entity, Predator):
                 entity.make_move(game_map)
+            
+    
+
+class GenerateGrassAction(Action):
+    def execute(self, game_map: Map) -> None:
+        grass_count = len(game_map.grasses)
+        print(grass_count)
+        if grass_count == 0:
+            self.spawn_static_entities(game_map, Grass, 4)
                 
                 
 

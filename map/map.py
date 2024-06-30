@@ -1,4 +1,5 @@
 from entities.entity import Entity
+from entities.static_objects import Grass
 
 
 class Map:
@@ -6,10 +7,13 @@ class Map:
         self.width: int = width
         self.height: int = height
         self.entities: dict[tuple[int, int], Entity] = {}
+        self.grasses: set[Grass] = set()
 
     def add_entity(self, entity: Entity) -> None:
         x, y = entity.position
         self.entities[(x, y)] = entity
+        if isinstance(entity, Grass):
+            self.grasses.add(entity)
 
     def get_entity(self, position: tuple[int, int]) -> Entity | None:
         return self.entities.get(position)
@@ -26,3 +30,5 @@ class Map:
     def remove_entity(self, entity: Entity) -> None:
         if entity.position in self.entities:
             del self.entities[entity.position]
+            if isinstance(entity, Grass):
+                self.grasses.remove(entity)
