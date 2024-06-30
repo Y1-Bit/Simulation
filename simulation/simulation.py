@@ -3,6 +3,7 @@ import time
 from actions import Action, InitAction, TurnAction
 from map import Map
 from renderer import ConsoleRenderer
+from entities.creatures import Creature
 
 
 class Simulation:
@@ -13,7 +14,7 @@ class Simulation:
         self.init_actions: list[Action] = [InitAction()]
         self.turn_actions: list[Action] = [TurnAction()]
         self.health_stats: dict[str, int] = {}
-        self.creatures = []
+        self.creatures: list[Creature] = []
         self.is_paused = False
     
     def next_turn(self) -> None:
@@ -30,7 +31,7 @@ class Simulation:
 
         entities = self.map.get_entities()
         for entity in entities.values():
-            if hasattr(entity, 'hp'):
+            if isinstance(entity, Creature):
                 self.creatures.append(entity)
         
         while True:
@@ -38,7 +39,7 @@ class Simulation:
             time.sleep(1)
         
     def update_health_stats(self) -> None:
-        self.health_stats = {creature.__class__.__name__: creature.hp for creature in self.creatures}
+        self.health_stats = {f"{creature.__class__.__name__}_{index}": creature.hp for index, creature in enumerate(self.creatures)}
 
     def pause_simulation(self) -> None:
         self.is_paused = True  
