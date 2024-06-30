@@ -1,8 +1,6 @@
 import os
 
-from entities.herbivore import Herbivore
-from entities.predator import Predator
-from entities.static_objects import Grass, Rock, Tree
+from entities import Grass, Herbivore, Predator, Rock, Tree
 from map import Map
 
 

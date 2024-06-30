@@ -10,5 +10,5 @@ def main() -> None:
         print("\nGame stopped. Bye!")
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()

@@ -1,6 +1,6 @@
-from entities.entity import Entity
-from entities.static_objects import Grass
+from entities import Entity
 from entities.creatures import Creature
+from entities.static_objects import Grass
 
 
 class Map:

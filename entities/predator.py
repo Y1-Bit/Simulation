@@ -1,10 +1,13 @@
+from map import Map
+
 from .creatures import Creature
 from .herbivore import Herbivore
-from map import Map
 
 
 class Predator(Creature):
-    def __init__(self, position: tuple[int, int], speed: int, hp: int, attack_power: int) -> None:
+    def __init__(
+        self, position: tuple[int, int], speed: int, hp: int, attack_power: int
+    ) -> None:
         super().__init__(position, speed, hp)
         self.attack_power: int = attack_power
 
