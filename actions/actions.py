@@ -59,7 +59,7 @@ class InitAction(Action):
 
 class TurnAction(Action):
     def execute(self, game_map: Map) -> None:
-        entities = game_map.get_entities()
+        entities = game_map.entities
         for entity in list(entities.values()):
             if isinstance(entity, Herbivore) or isinstance(entity, Predator):
                 entity.make_move(game_map)
@@ -77,7 +77,7 @@ class CheckAndSpawnAction(Action):
     def execute(self, game_map: Map) -> None:
         creatures = [
             entity
-            for entity in game_map.get_entities().values()
+            for entity in game_map.entities.values()
             if isinstance(entity, (Herbivore, Predator))
         ]
         if len(creatures) <= 1:

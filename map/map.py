@@ -23,9 +23,6 @@ class Map:
     def get_entity(self, position: tuple[int, int]) -> Entity | None:
         return self.entities.get(position)
 
-    def get_entities(self) -> dict[tuple[int, int], Entity]:
-        return self.entities
-
     def move_entity(self, entity: Entity, new_position: tuple[int, int]) -> None:
         if entity.position in self.entities:
             del self.entities[entity.position]

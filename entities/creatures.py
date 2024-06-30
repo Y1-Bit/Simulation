@@ -29,7 +29,7 @@ class Creature(Entity, ABC):
         queue = deque([([self.position], self.position)])
         visited = set([self.position])
 
-        entities = game_map.get_entities()
+        entities = game_map.entities
         for entity in entities.values():
             if not isinstance(entity, target_type):
                 visited.add(entity.position)
