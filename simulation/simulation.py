@@ -44,9 +44,8 @@ class Simulation:
 
         try:
             while self.running:
-                if not self.is_paused:
-                    self.next_turn()
-                    time.sleep(1)
+                self.next_turn()
+                time.sleep(1)
         except KeyboardInterrupt:
             print("\nSimulation stopped.")
         finally:
