@@ -1,9 +1,13 @@
+from __future__ import annotations
+
 from abc import ABC, abstractmethod
 from collections import deque
+from typing import TYPE_CHECKING
 
 from .entity import Entity
-from map import Map
 
+if TYPE_CHECKING:
+    from map import Map
 
 class Creature(Entity, ABC):
     def __init__(self, position: tuple[int, int], speed: int, hp: int) -> None:

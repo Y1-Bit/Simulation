@@ -57,5 +57,11 @@ class GenerateGrassAction(Action):
         if grass_count == 0:
             self.spawn_static_entities(game_map, Grass, 4)
                 
-                
-
+        
+    
+class CheckAndSpawnAction(Action):
+    def execute(self, game_map: Map) -> None:
+        creatures = [entity for entity in game_map.get_entities().values() if isinstance(entity, (Herbivore, Predator))]
+        if len(creatures) <= 1:
+            self.spawn_creature(game_map, Herbivore, 1, 30)
+            self.spawn_creature(game_map, Herbivore, 1, 30)
