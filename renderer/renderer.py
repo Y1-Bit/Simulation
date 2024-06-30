@@ -35,4 +35,5 @@ class ConsoleRenderer:
             print(f"{entity_type}: {total_health} HP")
 
         print(f"\nMove: {move_counter}")
+        print("\nPress Enter to pause/unpause the simulation")
         print("\nPress Ctrl+C to exit")
