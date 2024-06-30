@@ -1,6 +1,5 @@
 from .creatures import Creature
 from .herbivore import Herbivore
-from .static_objects import Grass, Rock, Tree
 from map import Map
 
 
@@ -10,8 +9,7 @@ class Predator(Creature):
         self.attack_power: int = attack_power
 
     def make_move(self, game_map: Map) -> None:
-        from .herbivore import Herbivore
-        path_to_herbivore = self.find_closest(game_map, Herbivore, (Rock, Tree, Grass))
+        path_to_herbivore = self.find_closest(game_map, Herbivore)
         if path_to_herbivore:
             self.move_towards(game_map, path_to_herbivore, self.speed)
             if self.is_next_to(path_to_herbivore[-1]):
