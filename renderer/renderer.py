@@ -30,7 +30,7 @@ class ConsoleRenderer:
                     print("🌲 ", end="")
             print()
 
-        print("\nHealth Bar:")
+        print("\nHealth Bar")
         for entity_type, total_health in health_stats.items():
             print(f"{entity_type}: {total_health} HP")
 
