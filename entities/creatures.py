@@ -20,37 +20,39 @@ class Creature(Entity, ABC):
         dy: int = abs(self.position[1] - target_position[1])
         return (dx == 1 and dy == 0) or (dx == 0 and dy == 1)
 
-    def find_closest(self, game_map: Map, target_type: type) -> list[tuple[int, int]] | None:
+    def find_closest(self, game_map: Map, target_type) -> list[tuple[int, int]] | None:
+        queue = deque([([self.position], self.position)])
+        visited = set([self.position])
+        
         entities = game_map.get_entities()
         for entity in entities.values():
-            if isinstance(entity, target_type):
-                entities.pop(entity.position)
-
-        ignore_positions = entities.keys() 
-        queue = deque([([self.position], self.position)])  
-        visited = set([self.position]) | ignore_positions
+            if not isinstance(entity, target_type):
+                visited.add(entity.position)
 
         while queue:
             path, current_position = queue.popleft()
-
             entity = game_map.get_entity(current_position)
-            if isinstance(entity, target_type):
-                return path  
+
+            if entity and isinstance(entity, target_type) and current_position != self.position:
+                return path
 
             x, y = current_position
             neighbors = [(x-1, y), (x+1, y), (x, y-1), (x, y+1)]
             for neighbor in neighbors:
                 if (0 <= neighbor[0] < game_map.width and 0 <= neighbor[1] < game_map.height and
                         neighbor not in visited):
-                    new_path = path + [neighbor]  
+                    new_path = path + [neighbor]
                     queue.append((new_path, neighbor))
                     visited.add(neighbor)
 
         return None
-    
+        
     def move_towards(self, game_map: Map, path: list[tuple[int, int]], creature_speed: int) -> None:
         if not path or len(path) < 2:
             return
+
+        if len(path) == 3 and creature_speed > 1:
+            creature_speed = 1
 
         next_position_index = min(creature_speed, len(path) - 1)
         next_position = path[next_position_index]

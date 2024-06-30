@@ -19,6 +19,7 @@ class InitAction(Action):
         self.spawn_static_entities(game_map, Rock, 5)
         self.spawn_static_entities(game_map, Tree, 5)
         self.spawn_creature(game_map, Herbivore, 1, 30)
+        self.spawn_creature(game_map, Herbivore, 1, 30)
         self.spawn_creature(game_map, Predator, 2, 15, 5)
 
     def spawn_static_entities(self, game_map: Map, entity_type: type, count: int) -> None:
@@ -42,9 +43,10 @@ class InitAction(Action):
 
 class TurnAction(Action):
     def execute(self, game_map: Map) -> None:
-        creatures = game_map.get_creatures()
-        for creature in creatures:
-            creature.make_move(game_map)
+        entities = game_map.get_entities()
+        for entity in list(entities.values()):  
+            if isinstance(entity, Herbivore) or isinstance(entity, Predator):
+                entity.make_move(game_map)
                 
                 
 
