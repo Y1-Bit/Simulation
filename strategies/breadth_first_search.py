@@ -1,11 +1,15 @@
 from collections import deque
+from typing import TYPE_CHECKING
 
 from .path_finding_strategy import PathFindingStrategy
+
+if TYPE_CHECKING:
+    from map import Map
 
 
 class BreadthFirstSearchStrategy(PathFindingStrategy):
     def find_path(
-        self, start: tuple[int, int], target_type: type, game_map
+        self, start: tuple[int, int], target_type: type, game_map: Map
     ) -> list[tuple[int, int]] | None:
         queue = deque([([start], start)])
         visited = set([start])
