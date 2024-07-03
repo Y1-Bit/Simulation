@@ -42,7 +42,7 @@ class Simulation:
         try:
             while self.running:
                 self.next_turn()
-                time.sleep(1)
+                time.sleep(0.5)
         except KeyboardInterrupt:
             self.renderer.simulation_stopped()
         finally:
