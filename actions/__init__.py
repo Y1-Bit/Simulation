@@ -4,4 +4,5 @@ from .actions import (
     GenerateGrassAction,
     InitAction,
     TurnAction,
+    EntityActions,
 )
