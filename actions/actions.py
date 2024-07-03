@@ -3,6 +3,7 @@ from abc import ABC, abstractmethod
 
 from entities import Grass, Herbivore, Predator, Rock, Tree
 from map import Map
+from strategies import PathFindingStrategy
 
 
 class Action(ABC):
@@ -16,6 +17,7 @@ class EntityActions(Action, ABC):
         self,
         game_map: Map,
         creature_params: dict,
+        path_finding_strategy: PathFindingStrategy,
     ) -> None:
         creature_type: type = creature_params['type']
         speed: int = creature_params['speed']
@@ -31,11 +33,11 @@ class EntityActions(Action, ABC):
                 if attack_power is not None:
                     game_map.add_entity(
                         creature_type(
-                            position, speed=speed, hp=hp, attack_power=attack_power
+                            position, speed=speed, hp=hp, attack_power=attack_power, path_finding_strategy=path_finding_strategy
                         )
                     )
                 else:
-                    game_map.add_entity(creature_type(position, speed=speed, hp=hp))
+                    game_map.add_entity(creature_type(position, speed=speed, hp=hp, path_finding_strategy=path_finding_strategy))
                 break
 
     def spawn_static_entities(
@@ -58,19 +60,21 @@ class InitAction(EntityActions):
         predator_params: dict,
         grass_count: int,
         rock_count: int,
-        tree_count: int
+        tree_count: int,
+        path_finding_strategy: PathFindingStrategy,
     ) -> None:
         self.herbivore_params = herbivore_params
         self.predator_params = predator_params
         self.grass_count = grass_count
         self.rock_count = rock_count
         self.tree_count = tree_count
+        self.path_finding_strategy = path_finding_strategy
 
     def execute(self, game_map: Map) -> None:
         for _ in range(self.herbivore_params['count']):
-            self.spawn_creature(game_map, self.herbivore_params)
+            self.spawn_creature(game_map, self.herbivore_params, self.path_finding_strategy)
         for _ in range(self.predator_params['count']):
-            self.spawn_creature(game_map, self.predator_params)
+            self.spawn_creature(game_map, self.predator_params, self.path_finding_strategy)
         self.spawn_static_entities(game_map, Grass, self.grass_count)
         self.spawn_static_entities(game_map, Rock, self.rock_count)
         self.spawn_static_entities(game_map, Tree, self.tree_count)
@@ -95,8 +99,9 @@ class GenerateGrassAction(EntityActions):
 
 
 class CheckAndSpawnAction(EntityActions):
-    def __init__(self, check_and_spawn_params: dict) -> None:
+    def __init__(self, check_and_spawn_params: dict, path_finding_strategy: PathFindingStrategy) -> None:
         self.check_and_spawn_params = check_and_spawn_params
+        self.path_finding_strategy = path_finding_strategy
 
     def execute(self, game_map: Map) -> None:
         creatures = [
@@ -106,5 +111,5 @@ class CheckAndSpawnAction(EntityActions):
         ]
         if len(creatures) <= 1:
             for _ in range(self.check_and_spawn_params['count']):
-                self.spawn_creature(game_map, self.check_and_spawn_params)
+                self.spawn_creature(game_map, self.check_and_spawn_params, self.path_finding_strategy)
                 

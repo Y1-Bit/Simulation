@@ -10,6 +10,7 @@ from actions import (
 from config import Config
 from renderer import ConsoleRenderer
 from simulation import Simulation
+from strategies import BreadthFirstSearchStrategy
 
 
 def load_config(config_path: str) -> dict:
@@ -30,12 +31,15 @@ def main() -> None:
         config.get_init_action_params()
     )
 
+    path_finding_strategy = BreadthFirstSearchStrategy()
+
     init_action = InitAction(
         herbivore_params=herbivore_params,
         predator_params=predator_params,
         grass_count=grass_count,
         rock_count=rock_count,
         tree_count=tree_count,
+        path_finding_strategy=path_finding_strategy,
     )
 
     init_actions: list[Action] = [init_action]
@@ -44,7 +48,7 @@ def main() -> None:
 
     turn_actions: list[Action] = [
         TurnAction(),
-        CheckAndSpawnAction(check_and_spawn_params),
+        CheckAndSpawnAction(check_and_spawn_params, path_finding_strategy),
         GenerateGrassAction(generate_new_grass_count),
     ]
 
