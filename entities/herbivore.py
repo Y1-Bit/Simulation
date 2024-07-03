@@ -9,8 +9,6 @@ class Herbivore(Creature):
         super().__init__(position, speed, hp)
 
     def make_move(self, game_map: Map) -> None:
-        from .predator import Predator
-
         path_to_grass = self.find_closest(game_map, Grass)
         if path_to_grass:
             self.move_towards(game_map, path_to_grass, self.speed)
