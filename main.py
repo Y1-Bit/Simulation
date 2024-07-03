@@ -27,15 +27,15 @@ def convert_params(params: dict) -> dict:
     return params
 
 def main() -> None:
-    config = load_config('config.json')
+    config: dict = load_config('config.json')
 
-    width = config["simulation"]["width"]
-    height = config["simulation"]["height"]
+    width: int = config["simulation"]["width"]
+    height: int = config["simulation"]["height"]
     renderer = ConsoleRenderer()
 
-    herbivore_params = convert_params(config["init_entities"]["herbivore"])
-    predator_params = convert_params(config["init_entities"]["predator"])
-    static_counts = config["init_entities"]["static_counts"]
+    herbivore_params: dict = convert_params(config["init_entities"]["herbivore"])
+    predator_params: dict = convert_params(config["init_entities"]["predator"])
+    static_counts: dict = config["init_entities"]["static_counts"]
 
     init_action = InitAction(
         herbivore_params=herbivore_params,
@@ -45,9 +45,9 @@ def main() -> None:
         tree_count=static_counts["tree_count"],
     )
 
-    generate_new_grass_count = config["actions"]["generate_new_grass_count"]
+    generate_new_grass_count: int = config["actions"]["generate_new_grass_count"]
 
-    check_and_spawn_params = convert_params(config["actions"]["check_and_spawn_action"])
+    check_and_spawn_params: dict = convert_params(config["actions"]["check_and_spawn_action"])
 
     init_actions: list[Action] = [init_action]
     turn_actions: list[Action] = [
