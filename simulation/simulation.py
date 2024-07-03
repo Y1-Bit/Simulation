@@ -1,28 +1,25 @@
 import threading
 import time
 
-from actions import (
-    Action,
-    CheckAndSpawnAction,
-    GenerateGrassAction,
-    InitAction,
-    TurnAction,
-)
+from actions import Action
 from map import Map
 from renderer import ConsoleRenderer
 
 
 class Simulation:
-    def __init__(self, width, height) -> None:
+    def __init__(
+        self,
+        width: int,
+        height: int,
+        render: ConsoleRenderer,
+        init_actions: list[Action],
+        turn_actions: list[Action],
+    ) -> None:
         self.map = Map(width, height)
         self.move_counter = 0
-        self.renderer = ConsoleRenderer()
-        self.init_actions: list[Action] = [InitAction()]
-        self.turn_actions: list[Action] = [
-            TurnAction(),
-            GenerateGrassAction(),
-            CheckAndSpawnAction(),
-        ]
+        self.renderer = render
+        self.init_actions = init_actions
+        self.turn_actions = turn_actions
         self.health_stats: dict[str, int] = {}
         self.is_paused = False
         self.running = True
