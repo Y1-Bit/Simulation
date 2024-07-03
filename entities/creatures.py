@@ -25,7 +25,7 @@ class Creature(Entity, ABC):
         dy: int = abs(self.position[1] - target_position[1])
         return (dx == 1 and dy == 0) or (dx == 0 and dy == 1)
 
-    def find_closest(self, game_map: Map, target_type) -> list[tuple[int, int]] | None:
+    def find_closest(self, game_map: Map, target_type: type) -> list[tuple[int, int]] | None:
         queue = deque([([self.position], self.position)])
         visited = set([self.position])
 
