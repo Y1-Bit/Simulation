@@ -18,7 +18,7 @@ def main() -> None:
     try:
         simulation.start_simulation()
     except KeyboardInterrupt:
-        print("\nGame stopped. Bye!")
+        renderer.game_stopped_message()
 
 
 if __name__ == "__main__":

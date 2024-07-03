@@ -44,7 +44,7 @@ class Simulation:
                 self.next_turn()
                 time.sleep(1)
         except KeyboardInterrupt:
-            print("\nSimulation stopped.")
+            self.renderer.simulation_stopped()
         finally:
             self.running = False
             input_thread.join()
@@ -63,4 +63,4 @@ class Simulation:
 
     def toggle_pause(self) -> None:
         self.is_paused = not self.is_paused
-        print("Simulation paused." if self.is_paused else "Simulation resumed.")
+        self.renderer.toggle_pause_message(self.is_paused)

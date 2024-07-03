@@ -5,6 +5,15 @@ from map import Map
 
 
 class ConsoleRenderer:
+    def simulation_stopped(self) -> None:
+        print("\nSimulation stopped.")
+    
+    def toggle_pause_message(self, is_paused: bool) -> None:
+        print("Simulation paused." if is_paused else "Simulation resumed.")
+
+    def game_stopped_message(self) -> None:
+        print("\nGame stopped. Bye!")
+
     def clear_console(self) -> None:
         os.system("cls" if os.name == "nt" else "clear")
 
@@ -35,3 +44,4 @@ class ConsoleRenderer:
         print(f"\nMove: {move_counter}")
         print("\nPress Enter to pause/unpause the simulation")
         print("\nPress Ctrl+C to exit")
+        
