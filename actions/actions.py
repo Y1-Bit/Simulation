@@ -11,7 +11,7 @@ class Action(ABC):
         pass
 
 
-class EntityActions(Action):
+class EntityActions(Action, ABC):
     def spawn_creature(
         self,
         game_map: Map,
@@ -70,7 +70,6 @@ class TurnAction(Action):
 class GenerateGrassAction(EntityActions):
     def execute(self, game_map: Map) -> None:
         grass_count = len(game_map.grasses)
-        print(grass_count)
         if grass_count == 0:
             self.spawn_static_entities(game_map, Grass, 4)
 
