@@ -1,4 +1,5 @@
 from map import Map
+from strategies import PathFindingStrategy
 
 from .creatures import Creature
 from .herbivore import Herbivore
@@ -6,9 +7,9 @@ from .herbivore import Herbivore
 
 class Predator(Creature):
     def __init__(
-        self, position: tuple[int, int], speed: int, hp: int, attack_power: int
+        self, position: tuple[int, int], speed: int, hp: int, attack_power: int, path_finding_strategy: PathFindingStrategy
     ) -> None:
-        super().__init__(position, speed, hp)
+        super().__init__(position, speed, hp, path_finding_strategy)
         self.attack_power: int = attack_power
 
     def make_move(self, game_map: Map) -> None:

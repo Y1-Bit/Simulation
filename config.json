@@ -1,0 +1,35 @@
+{
+    "simulation": {
+        "width": 10,
+        "height": 10
+    },
+    "init_entities": {
+        "herbivore": {
+            "type": "Herbivore",
+            "count": 2,
+            "speed": 1,
+            "hp": 30
+        },
+        "predator": {
+            "type": "Predator",
+            "count": 1,
+            "speed": 2,
+            "hp": 15,
+            "attack_power": 5
+        },
+        "static_counts": {
+            "grass_count": 4,
+            "rock_count": 5,
+            "tree_count": 5
+        }
+    },
+    "actions": {
+        "generate_new_grass_count": 4,
+        "check_and_spawn_action": {
+            "type": "Herbivore",
+            "count": 2,
+            "speed": 1,
+            "hp": 30
+        }
+    }
+}
