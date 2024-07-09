@@ -34,4 +34,7 @@ python main.py
 - `map/`: Module containing the map class where the simulation takes place.
 - `renderer/`: Module for visualizing the simulation.
 - `simulation/`: Module containing the simulation logic.
+- `strategies/`: Module containing pathfinding strategies.
 - `main.py`: The main file to run the simulation.
+- `config.json`: Configuration file with simulation parameters.
+- `config.py`: Class for managing simulation configuration.
