@@ -9,7 +9,7 @@ if TYPE_CHECKING:
 
 class BreadthFirstSearchStrategy(PathFindingStrategy):
     def find_path(
-        self, start: tuple[int, int], target_type: type, game_map: Map
+        self, start: tuple[int, int], target_type: type, game_map: 'Map'
     ) -> list[tuple[int, int]] | None:
         queue = deque([([start], start)])
         visited = set([start])
